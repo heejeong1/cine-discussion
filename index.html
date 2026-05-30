@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="모임의 온도 | CINE SOCIETY 전용 발제문 생성 및 카드뉴스 제작 툴. 다크 모드에 세련된 주황색 포인트 디자인을 반영하여 전문 브랜드 앱 같은 인터페이스를 선사합니다.">
+  <meta name="keywords" content="독서모임, 영화모임, 씨네 쏘사이어티, 발제문 생성기, 토론 질문, 카드뉴스 제작, 모임의 온도">
+  <meta name="author" content="Cine Society & Antigravity">
+  
+  <title>모임의 온도 | CINE SOCIETY 발제문 & 카드뉴스 제작기</title>
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- App Header -->
+  <header>
+    <div class="logo-container">
+      <div class="logo-icon">
+        <i class="fa-solid fa-film"></i>
+      </div>
+      <h1>CINE SOCIETY</h1>
+    </div>
+    <p>모임의 온도 | 고품격 5단 발제문 생성 및 카드뉴스 제작 에디터</p>
+  </header>
+
+  <!-- Main WorkSpace Grid -->
+  <main>
+    <!-- Left Column: Generator & Configuration Panel -->
+    <section class="glass-panel animated-item" style="animation-delay: 0.1s;">
+      <h2 class="panel-title">
+        <i class="fa-solid fa-sliders"></i>
+        <span>토론 환경 설정</span>
+      </h2>
+      
+      <!-- Toggle Book / Movie -->
+      <div class="form-group">
+        <label>모임 성격</label>
+        <div class="toggle-container" id="typeToggle">
+          <button class="toggle-btn active" data-type="book">
+            <i class="fa-solid fa-book-open"></i> 도서 모임
+          </button>
+          <button class="toggle-btn" data-type="movie">
+            <i class="fa-solid fa-film"></i> 영화 모임
+          </button>
+        </div>
+      </div>
+      
+      <!-- Preset Select -->
+      <div class="form-group">
+        <label for="presetSelect">추천 대표 명작</label>
+        <div class="select-wrapper">
+          <select id="presetSelect">
+            <option value="">-- 프리셋 선택 (질문 5개 제공) --</option>
+            <!-- Generated dynamically via JS -->
+          </select>
+        </div>
+      </div>
+      
+      <div style="text-align: center; color: var(--text-muted); font-size: 0.8rem; margin: -0.5rem 0 1rem; font-family: 'Cinzel', serif;">
+        - OR CUSTOM INPUT -
+      </div>
+
+      <!-- Custom Inputs -->
+      <div class="form-group">
+        <label for="inputTitle">작품 제목</label>
+        <input type="text" id="inputTitle" placeholder="예: 데미안, 기생충" required autocomplete="off">
+      </div>
+      
+      <div class="form-group">
+        <label for="inputCreator" id="creatorLabel">저자 이름</label>
+        <input type="text" id="inputCreator" placeholder="예: 헤르만 헤세">
+      </div>
+
+      <!-- Custom Keyword Input -->
+      <div class="form-group">
+        <label for="inputKeyword">핵심 토론 키워드 <span style="color: var(--brand-orange); font-size: 0.75rem;">(질문 결합용)</span></label>
+        <input type="text" id="inputKeyword" placeholder="예: 물질 만능주의, 자아 성장, 디스토피아">
+      </div>
+
+      <!-- Theme tag selector -->
+      <div class="form-group">
+        <label>기본 토론 주제</label>
+        <div class="tag-selector" id="themeSelector">
+          <button class="tag-btn active" data-theme="자아성장">자아성장</button>
+          <button class="tag-btn" data-theme="사회구조">사회구조</button>
+          <button class="tag-btn" data-theme="인간관계">인간관계</button>
+          <button class="tag-btn" data-theme="인생관">인생관</button>
+        </div>
+      </div>
+
+      <!-- Tone selector -->
+      <div class="form-group">
+        <label>토론 분석 무드</label>
+        <div class="tag-selector" id="toneSelector">
+          <button class="tag-btn active" data-tone="philosophical">진지·철학적</button>
+          <button class="tag-btn" data-tone="critical">비판·사회적</button>
+          <button class="tag-btn" data-tone="cozy">소소·따뜻한</button>
+          <button class="tag-btn" data-tone="humorous">유쾌·유머러스</button>
+        </div>
+      </div>
+
+      <!-- Action Button -->
+      <button class="btn-primary" id="btnGenerate">
+        <i class="fa-solid fa-fire-burner"></i>
+        <span>5단 발제문 및 카드 생성</span>
+      </button>
+    </section>
+
+    <!-- Right Column: Workstation -->
+    <div class="workstation">
+      <div class="content-row">
+        <!-- 1. Left Sub-column: Generated Prompts List (Editor) -->
+        <section class="glass-panel glass-panel-expanded animated-item" style="animation-delay: 0.2s;">
+          <h2 class="panel-title">
+            <i class="fa-solid fa-file-pen"></i>
+            <span>5단계 발제문 실시간 편집</span>
+          </h2>
+          
+          <div class="prompts-list" id="promptsListContainer">
+            <!-- Dynamic elements load here -->
+            <div style="text-align: center; padding: 5rem 1rem; color: var(--text-muted);">
+              <i class="fa-solid fa-lightbulb" style="font-size: 2.8rem; margin-bottom: 1.2rem; opacity: 0.4; display: block; color: var(--brand-orange);"></i>
+              작품 정보 입력 및 [5단 발제문 및 카드 생성] 버튼을 누르면 완성도 높은 5단 토론 질문 세트가 완성됩니다.
+            </div>
+          </div>
+          
+          <button class="add-prompt-btn" id="btnAddPrompt" style="display: none;">
+            <i class="fa-solid fa-plus"></i> 추가 질문 등록
+          </button>
+        </section>
+
+        <!-- 2. Right Sub-column: Card News Preview & Customizer -->
+        <section class="glass-panel glass-panel-expanded animated-item" style="animation-delay: 0.3s;">
+          <h2 class="panel-title">
+            <i class="fa-solid fa-photo-film"></i>
+            <span>카드뉴스 디자인</span>
+          </h2>
+          
+          <!-- Design Settings Panel -->
+          <div class="card-design-settings" id="designSettings" style="display: none;">
+            <div>
+              <label style="font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 0.6rem; color: var(--text-secondary);">카드뉴스 스킨 무드 선택 <span style="color: var(--brand-orange); font-size: 0.72rem;">(7종 테마)</span></label>
+              <div class="template-grid" style="grid-template-columns: repeat(4, 1fr); gap: 0.5rem; margin-bottom: 1rem;">
+                <div class="template-card active" data-template="cine-dark-orange">
+                  <div class="template-preview-circle" style="background: #0b0b0f; border-color: #ff6b00;"></div>
+                  <span>시네 딥블랙</span>
+                </div>
+                <div class="template-card" data-template="classic-warm-beige">
+                  <div class="template-preview-circle" style="background: #fbf8f2; border-color: #e2d3c2;"></div>
+                  <span>클래식 베이지</span>
+                </div>
+                <div class="template-card" data-template="sunset-orange-grad">
+                  <div class="template-preview-circle" style="background: linear-gradient(135deg, #ff7e40, #ff4500); border-color: #ffffff;"></div>
+                  <span>선셋 오렌지</span>
+                </div>
+                <div class="template-card" data-template="neon-urban">
+                  <div class="template-preview-circle" style="background: #080b13; border-color: #00f2fe;"></div>
+                  <span>네온 어반블루</span>
+                </div>
+                <div class="template-card" data-template="minimal-grid">
+                  <div class="template-preview-circle" style="background: #f8f9fa; border-color: #1a1a1a;"></div>
+                  <span>미니멀 그리드</span>
+                </div>
+                <div class="template-card" data-template="emerald-forest">
+                  <div class="template-preview-circle" style="background: #051d19; border-color: #d4af37;"></div>
+                  <span>에메랄드</span>
+                </div>
+                <div class="template-card" data-template="midnight-purple">
+                  <div class="template-preview-circle" style="background: #0d091e; border-color: #e879f9;"></div>
+                  <span>미드나잇</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Custom styling controls -->
+            <div class="design-controls">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="cardAuthor">발제자 표시</label>
+                <input type="text" id="cardAuthor" placeholder="예: 홍길동" value="씨네 쏘사이어티">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="cardGroup">모임 이름</label>
+                <input type="text" id="cardGroup" placeholder="예: 목요 씨네클럽" value="CINE SOCIETY">
+              </div>
+            </div>
+
+            <!-- Custom Card Background Settings Section -->
+            <div style="border-top: 1px solid var(--border-color); padding-top: 1rem; margin-top: 0.5rem;">
+              <label style="font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 0.6rem; color: var(--text-secondary);">카드 배경 및 패턴 레이어 설정</label>
+              <div style="display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 1rem; align-items: end;">
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label for="bgPatternSelect" style="font-size: 0.72rem; opacity: 0.85;">오버레이 배경 패턴</label>
+                  <div class="select-wrapper">
+                    <select id="bgPatternSelect">
+                      <option value="none">없음 (스킨 기본)</option>
+                      <option value="film-grain">필름 그레인 노이즈</option>
+                      <option value="geometric-grid">모던 기하학 그리드</option>
+                      <option value="light-leak">빛 번짐 글레어 필터</option>
+                      <option value="wave-lines">우아한 미세 곡선</option>
+                    </select>
+                  </div>
+                </div>
+                
+                <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+                  <label style="font-size: 0.72rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase;">배경 이미지 직접 업로드</label>
+                  <input type="file" id="cardBgUpload" accept="image/*" style="display: none;">
+                  <div style="display: flex; gap: 0.4rem;">
+                    <button class="btn-secondary" id="btnUploadBg" style="font-size: 0.75rem; padding: 0.6rem 0.8rem; flex-grow: 1;">
+                      <i class="fa-solid fa-image"></i> 업로드
+                    </button>
+                    <button class="btn-secondary" id="btnResetBg" style="font-size: 0.75rem; padding: 0.6rem 0.8rem; border-color: rgba(255, 61, 0, 0.4); color: #ff3d00; display: none;">
+                      <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Canvas Display Area -->
+          <div class="card-news-display" id="cardDisplayArea" style="display: none;">
+            <div class="card-canvas-outer">
+              <!-- Live card element. Downloaded via html2canvas -->
+              <div class="card-canvas card-template-cine-dark-orange pattern-none" id="captureTarget">
+                <!-- Background Pattern Layer -->
+                <div class="card-bg-overlay"></div>
+                
+                <!-- Dynamic Card Content Structure -->
+                <span class="card-header-label" id="cardHeaderLabel">CINE SOCIETY</span>
+                
+                <div class="card-body" id="cardBodyContent">
+                  <!-- JS inserts title card or prompt card layout here -->
+                </div>
+                
+                <div class="card-footer">
+                  <span id="footerGroupName">CINE SOCIETY</span>
+                  <span id="footerAuthorName">by 씨네 쏘사이어티</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card Carousel Controls -->
+            <div class="card-slider-controls">
+              <button class="slider-btn" id="btnPrevCard">
+                <i class="fa-solid fa-chevron-left"></i>
+              </button>
+              <div class="card-indicator" id="cardIndicator">1 / 7</div>
+              <button class="slider-btn" id="btnNextCard">
+                <i class="fa-solid fa-chevron-right"></i>
+              </button>
+            </div>
+
+            <!-- Export Buttons -->
+            <div class="card-actions-wrapper">
+              <div class="card-actions-row">
+                <button class="btn-secondary" id="btnCopyText">
+                  <i class="fa-solid fa-copy"></i> 가이드 텍스트 복사
+                </button>
+                <button class="btn-secondary btn-icon-glowing" id="btnDownloadCard">
+                  <i class="fa-solid fa-download"></i> 현재 카드 저장
+                </button>
+              </div>
+              <button class="btn-primary" id="btnDownloadAll" style="background: var(--primary-glow); box-shadow: 0 10px 20px -10px rgba(255, 107, 0, 0.4);">
+                <i class="fa-solid fa-file-arrow-down"></i> 전체 카드뉴스 일괄 다운로드
+              </button>
+            </div>
+          </div>
+
+          <!-- Helper indicator when empty -->
+          <div class="card-news-display" id="cardEmptyState" style="height: 100%; min-height: 250px;">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.95rem;">
+              <i class="fa-solid fa-film" style="font-size: 3rem; margin-bottom: 1.2rem; opacity: 0.2; display: block; color: var(--brand-orange);"></i>
+              발제문이 생성되면 브랜드 디자인이 매칭된 카드뉴스 실시간 미리보기가 이곳에 렌더링됩니다.
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- html2canvas library CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  
+  <!-- JavaScript Logics -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
